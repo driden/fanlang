@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "FantasyExample",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/fantasyc",
+            "args": [ "example.fan"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "Build FantasyC",
+            "logging": {
+                "trace": true,
+                "traceResponse": true,
+                "engineLogging": true
+              }
+        }
+    ],
+    "version": "2.0.0"
+}
