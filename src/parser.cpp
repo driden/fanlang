@@ -5,24 +5,25 @@
 #include <string>
 
 void IdentifierExpr::print(int indent) const {
-    std::cout << std::string(indent, ' ') << "Id(" << name << ")\n";
+    std::cout << std::string(indent, ' ') << "Id(" << name << ")";
 }
 
 void NumberExpr::print(int indent) const {
-    std::cout << std::string(indent, ' ') << "Number(" << value << ")\n";
+    std::cout << std::string(indent, ' ') << "Number(" << value << ")";
 }
 
 void BinaryExpr::print(int indent) const {
-    std::cout << std::string(indent, ' ') << "BinaryExpr(\"" << op << "\"\n";
-    left -> print(indent + 2);
-    right -> print(indent + 2);
-    std::cout << std::string(indent, ' ') << ")\n";
+    std::cout << std::string(indent, ' ') << "BinaryExpr(\"" << op << "\", ";
+    left -> print(indent);
+    std::cout << ", ";
+    right -> print(indent);
+    std::cout << std::string(indent, ' ') << ")";
 }
 
 void VariableDeclaration::print(int indent) const {
-    std::cout << std::string(indent, ' ') << "LetExpr(\"" << name << "\"\n";
-    value -> print(indent + 2);
-    std::cout << std::string(indent, ' ') << ")\n";
+    std::cout << std::string(indent, ' ') << "VarDecl(\"" << name << "\" = ";
+    value -> print(0);
+    std::cout << ")\n";
 }
 
 void Program::print(int indent) const {
@@ -49,23 +50,18 @@ ASTNode* Parser::parseExpression() {
         left = new NumberExpr(std::stoi(tokens[pos].value));
         pos++;
     } else if (tokens[pos].type == IDENTIFIER) {
-        left = new VariableDeclaration(tokens[pos].value, nullptr);
+        left = new IdentifierExpr(tokens[pos].value);
         pos++;
     } else {
         throw std::runtime_error("Expected primary expression");
     }
 
-    while (tokens[pos].type == PLUS) {
+    if (tokens[pos].type == PLUS) {
         pos++;
         ASTNode* right = parseExpression();
         left = new BinaryExpr(left, '+', right);
     }
     return left;
-}
-
-ASTNode* Parser::parseIdentifierExpression() {
-    Token& varName = consume(IDENTIFIER);
-    return new IdentifierExpr(tokens[pos].value);
 }
 
 ASTNode* Parser::parseStatement() {

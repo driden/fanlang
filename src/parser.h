@@ -47,7 +47,6 @@ class Parser {
     Token& consume(TokenType expected);
     void currToken();
     ASTNode* parseExpression();
-    ASTNode* parseIdentifierExpression();
     ASTNode* parsePrimary();
     ASTNode* parseStatement();
     ASTNode* parseProgram();
